@@ -71,6 +71,9 @@ function update(user) {
     return fetch(`${config.apiUrl}/users/${user.id}`, requestOptions).then(handleResponse);;
 }
 
+function getNotes(){
+    
+}
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {
     const requestOptions = {

@@ -1,59 +1,90 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
-import { userActions } from '../_actions';
+import {userActions} from '../_actions';
+import Header from "../Header/Header";
+import Map from "../Map/Map";
 
 class HomePage extends React.Component {
+    state = {
+        notes: [],
+        center: null,
+        zoom: 11,
+        errorMessage: '',
+        currentLocation: null
+    };
+
+    constructor(props){
+        super(props);
+
+        this.getBody = this.getBody.bind(this);
+        this.fetchData = this.fetchData.bind(this);
+
+    }
     componentDidMount() {
-        this.props.getUsers();
+        navigator.geolocation.getCurrentPosition((position) => {
+                this.setState({
+                    currentLocation: {lat: position.coords.latitude, lng: position.coords.longitude},
+                    center: {lat: position.coords.latitude, lng: position.coords.longitude}
+                });
+            },
+            (error) => this.setState({errorMessage: error.message})
+        );
     }
 
-    handleDeleteUser(id) {
-        return (e) => this.props.deleteUser(id);
+    fetchData(event) {
+        console.log('inside fetch data', event);
+
+        fetch("https://localhost:5001/api/notes",{headers:{ 'Access-Control-Allow-Origin': '*'}})
+            .then(res=>res.json())
+            .then(result=>{
+                console.log("result is: ",result);
+
+                this.setState({notes:result});
+            });
+    }
+    
+    getBody(){
+        if (this.state.errorMessage && !this.state.center) {
+            return <div>Error:{this.state.errorMessage}</div>;
+        }
+        if (!this.state.errorMessage && this.state.center) {
+            return (<div className="row">
+                <div className="col-md-8 col-sm-12">
+                    <Map notes={this.state.notes} center={this.state.center} myLocation={this.state.currentLocation} onMapIdle={this.fetchData}/>
+                </div>
+                <div className="col-md-4 col-sm-12">
+                    Comments go here
+                </div>
+            </div>);
+        }
+        return <div>Loading!</div>;
     }
 
     render() {
-        const { user, users } = this.props;
-        return (
-            <div className="col-md-6 col-md-offset-3">
-                <h1>Hi {user.firstName}!</h1>
-                <p>You're logged in with React!!</p>
-                <h3>All registered users:</h3>
-                {users.loading && <em>Loading users...</em>}
-                {users.error && <span className="text-danger">ERROR: {users.error}</span>}
-                {users.items &&
-                    <ul>
-                        {users.items.map((user, index) =>
-                            <li key={user.id}>
-                                {user.firstName + ' ' + user.lastName}
-                                {
-                                    user.deleting ? <em> - Deleting...</em>
-                                    : user.deleteError ? <span className="text-danger"> - ERROR: {user.deleteError}</span>
-                                    : <span> - <a onClick={this.handleDeleteUser(user.id)}>Delete</a></span>
-                                }
-                            </li>
-                        )}
-                    </ul>
-                }
-                <p>
-                    <Link to="/login">Logout</Link>
-                </p>
-            </div>
-        );
+        const {user, users} = this.props;
+        
+        
+        
+        return <div className="container">
+            <Header firstName={user.firstName}/>
+            {this.getBody()}
+        </div>
     }
 }
 
 function mapState(state) {
-    const { users, authentication } = state;
-    const { user } = authentication;
-    return { user, users };
+    const {authentication} = state;
+    const {user} = authentication;
+    return {user};
 }
 
+
 const actionCreators = {
-    getUsers: userActions.getAll,
-    deleteUser: userActions.delete
+    // getUsers: userActions.getAll,
+    // deleteUser: userActions.delete
 }
 
 const connectedHomePage = connect(mapState, actionCreators)(HomePage);
-export { connectedHomePage as HomePage };
+export {connectedHomePage as HomePage};
