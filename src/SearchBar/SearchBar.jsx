@@ -40,7 +40,7 @@ class SearchBar extends React.Component {
     render() {
         const {username, searchTerm, submitted} = this.state;
         return (<div>
-            <div><h3>Search</h3></div>
+            <div><h4>Search</h4></div>
             <form name="searchForm" onSubmit={this.handleSubmit}>
                 <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
                     {submitted && !username && !searchTerm &&
@@ -55,7 +55,7 @@ class SearchBar extends React.Component {
                 </div>
 
                 <div className={'form-group' + (submitted && !searchTerm ? ' has-error' : '')}>
-                    <label htmlFor="username">Search Term</label>
+                    <label htmlFor="searchTerm">Search Term</label>
                     <input type="text" className="form-control" name="searchTerm" value={searchTerm}
                            onChange={this.handleChange}/>
 

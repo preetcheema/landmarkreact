@@ -7,6 +7,7 @@ import Header from "../Header/Header";
 import Map from "../Map/Map";
 import {authHeader} from "../_helpers";
 import SearchBar from "../SearchBar/SearchBar";
+import AddNote from "../AddNote/AddNote";
 const { URL, URLSearchParams } = require('url');
 
 const apiBaseUrl="https://localhost:5001/api/notes";
@@ -100,7 +101,12 @@ class HomePage extends React.Component {
                 </div>
                 <div className="col-md-4 col-sm-12">
                    <SearchBar onChange={this.searchData}/>
+                    <hr/>
+                    <div>
+                   <AddNote/>
+                    </div>
                 </div>
+                
             </div>);
         }
         return <div>Loading!</div>;
