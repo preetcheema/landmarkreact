@@ -6,7 +6,10 @@ import {userActions} from '../_actions';
 import Header from "../Header/Header";
 import Map from "../Map/Map";
 import {authHeader} from "../_helpers";
+import SearchBar from "../SearchBar/SearchBar";
+const { URL, URLSearchParams } = require('url');
 
+const apiBaseUrl="https://localhost:5001/api/notes";
 class HomePage extends React.Component {
     state = {
         notes: [],
@@ -18,12 +21,15 @@ class HomePage extends React.Component {
         initialDataLoad: false
     };
 
+ 
+    
     constructor(props) {
         super(props);
 
         this.getBody = this.getBody.bind(this);
         this.fetchData = this.fetchData.bind(this);
-
+        this.searchData = this.searchData.bind(this);
+        this.fetchInitialData = this.fetchInitialData.bind(this);
     }
 
     componentDidMount() {
@@ -37,13 +43,26 @@ class HomePage extends React.Component {
         );
     }
 
-    fetchData(event) {
-        console.log('inside fetch data', event);
+    fetchInitialData(event){
         if (this.state.initialDataLoad) {
             return;
         }
+        console.log('inside fetch data', event);
+        this.fetchData(apiBaseUrl);
+    }
+
+    searchData(username, searchTerm){
+        console.log('called searchData with '+username+' '+searchTerm);
+        
+        var qryStr=`?username=${username}&searchTerm=${searchTerm}`;
+        var url=`${apiBaseUrl}${qryStr}`;
+        this.fetchData(url);
+    }
+    
+    fetchData(url) {             
+       
         var currentUser=this.props.user;
-        fetch("https://localhost:5001/api/notes", {headers: authHeader()})
+        fetch(url,{headers:authHeader()})
             .then(res => res.json())
             .then(result => {
                 console.log("got result, it is: ", result);
@@ -66,6 +85,8 @@ class HomePage extends React.Component {
 
             });
     }
+    
+    
 
     getBody() {
         if (this.state.errorMessage && !this.state.center) {
@@ -75,10 +96,10 @@ class HomePage extends React.Component {
             return (<div className="row">
                 <div className="col-md-8 col-sm-12">
                     <Map notes={this.state.filteredNotes} center={this.state.center} myLocation={this.state.currentLocation}
-                         onMapIdle={this.fetchData}  />
+                         onMapIdle={this.fetchInitialData}  />
                 </div>
                 <div className="col-md-4 col-sm-12">
-                    Comments go here
+                   <SearchBar onChange={this.searchData}/>
                 </div>
             </div>);
         }

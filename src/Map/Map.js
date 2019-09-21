@@ -10,7 +10,7 @@ class Map extends React.Component {
         super(props);
 
     }
-
+    
     render() {
         console.log(this.props);
         //   return <div>This is Maps component</div>;
