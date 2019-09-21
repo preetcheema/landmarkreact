@@ -29,6 +29,7 @@ class Map extends React.Component {
                     })
                 }
 
+                
             </GoogleMapReact>
         </div>
     }
