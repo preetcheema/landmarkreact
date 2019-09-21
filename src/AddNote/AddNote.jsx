@@ -21,10 +21,12 @@ class AddNote extends React.Component {
 
 
     handleSubmit(e) {
+        console.log('inside add note');
         e.preventDefault();
         this.setState({submitted: true});
         const {note} = this.state;
         if (note) {
+            this.props.onAdd(note);
             //  this.props.onChange(username, searchTerm)
         }
     }

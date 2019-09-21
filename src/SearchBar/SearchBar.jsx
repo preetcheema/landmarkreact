@@ -26,14 +26,14 @@ class SearchBar extends React.Component {
         this.setState({submitted: true});
         const {username, searchTerm} = this.state;
         if (username || searchTerm) {
-         this.props.onChange(username, searchTerm)
+         this.props.onSearch(username, searchTerm)
         }
     }
     
     clearFilter(){        
         this.setState({submitted: false});
         this.setState({username: '', searchTerm: ''});
-        this.props.onChange('', '')
+        this.props.onSearch('', '')
     }
 
 
