@@ -17,7 +17,7 @@ class Map extends React.Component {
         return <div style={{height: '100vh', width: '100%'}}>
             <GoogleMapReact
                 onChange={this.props.onMapIdle}
-                bootstrapURLKeys={{key: 'AIzaSyC4CSBpzyRQuKhKcKuizKk4LJLQ5FZss48'}}
+                bootstrapURLKeys={{key: 'AIzaSyDNVxoL3ZpNmi3573XxCKtQ4PWREW1JQ3I'}}
                 defaultCenter={this.props.center}
                 defaultZoom={11}
             >
@@ -25,7 +25,7 @@ class Map extends React.Component {
                 {
 
                     this.props.notes.map((item, index) => {
-                        return <Note key={item.id} lat={item.latitude} lng={item.longitude} note={item.text} username={item.userName}/>
+                        return <Note key={item.id} lat={item.latitude} lng={item.longitude} note={item.text} username={item.userName} isMyNote={item.isMyNote}/>
                     })
                 }
 
