@@ -27,8 +27,7 @@ To Fake current location, use Chrome->DeveloperTools->MoreTools->Sensors
 Notes:
 I have structured the project in a way I do in production. However there are many things that have been left out due to time constraint and small scope of project.
 Currently there is no logging in the project and not many helper filters etc.
-The api to get notes is currently very simplistic. In real world application this could be much more complicated for example, getting only
-comments from the bounds of the project.
+The api to get notes is currently very simplistic. 
 I have written some tests on Business Logic. Again, in real world we may also have tests against the API.
 The code is fairly self explanatory. I have added remarks where required.
 
