@@ -24,27 +24,3 @@ How to Run:
 Set Landmark.Api as startup project.
 To Fake current location, use Chrome->DeveloperTools->MoreTools->Sensors
 
-Notes:
-I have structured the project in a way I do in production. However there are many things that have been left out due to time constraint and small scope of project.
-Currently there is no logging in the project and not many helper filters etc.
-The api to get notes is currently very simplistic. 
-I have written some tests on Business Logic. Again, in real world we may also have tests against the API.
-The code is fairly self explanatory. I have added remarks where required.
-
-React Solution
-
-Disclaimer: As I have very limited knowledge of react, I have taken a sample project on login, register and modified it to add my code on home page
-The link to base project is: https://github.com/cornflourblue/react-redux-registration-login-example
-
-The react code just get the job done. It is not done using best practices such as usage of redux, redux-saga etc.
-
-Before running the program for first time:
-   Run npm-install to install the packages.
-
-Limitations: Currently the map shows the notes in a popup. The css in pop ups is not very pretty and also shows username on the side. I would have liked to 
-show just the pins and then the full note on hover over and the 'my' notes and other user notes in different colours but was limited by my css knowledge.
-
-
-Effort taken:
-.NET Project - Approx 8 hours,
-.React Project - Approx 12 hours
